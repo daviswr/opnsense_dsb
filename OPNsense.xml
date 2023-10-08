@@ -1,0 +1,194 @@
+<?xml version="1.0" ?>
+
+<dsb name="OPNsense" version="202306010001" author="Wes Davis" netmri="7.*">
+    <!-- https://www.iana.org/assignments/enterprise-numbers/?q=OPNsense -->
+    <!-- <mibenterprise vendor="OPNsense" number="53869" /> -->
+
+    <!-- 76 = Layers 3 + 4 + 7 -->
+    <devicemap
+        devicetype="Firewall"
+        identification="FreeBSD%"
+        ipForwarding="forwarding"
+        sysServices="76"
+    />
+
+    <!-- NET-SNMP-EXTEND-MIB::nsExtendOutput1Line."version" -->
+    <vendorscalar
+        vendor="Net-SNMP"
+        scalar="1.3.6.1.4.1.8072.1.3.2.3.1.1.7.118.101.114.115.105.111.110"
+        property="sysVersion"
+    />
+
+    <!-- NET-SNMP-EXTEND-MIB::nsExtendOutputFull."version" -->
+    <vendorscalar
+        vendor="Net-SNMP"
+        scalar="1.3.6.1.4.1.8072.1.3.2.3.1.2.7.118.101.114.115.105.111.110"
+        property="sysModel"
+    />
+
+    <versionmap
+        vendor="Net-SNMP"
+        variable="sysVersion"
+        triggered="always"
+        var_match="/OPNsense (\\S+)/"
+        var_replace="$1"
+    />
+    <versionmap
+        vendor="Net-SNMP"
+        devicetype="/(Firewall|Router)/"
+        variable="sysDescr"
+        triggered="whenUnknown"
+        var_match="/RELEASE-\\w+ \\w+\\/(\\d+\\.\\d+)/"
+        var_replace="$1"
+    />
+
+    <modelmap
+        vendor="Net-SNMP"
+        variable="sysModel"
+        var_match="/(OPNsense)/"
+        var_replace="$1"
+    />
+
+    <cpu    vendor="Net-SNMP" performanceObject="HostResources" />
+    <memory vendor="Net-SNMP" performanceObject="HostResources" />
+
+    <inventory
+        vendor="Net-SNMP"
+        sourcetype="table"
+        triggered="always"
+        collectSysVersion="false"
+        collectSysModel="false"
+        renumberIndex="false"
+        >
+        <oids>
+            <oid>hrDeviceType</oid>
+            <oid>hrDeviceDescr</oid>
+        </oids>
+        <oidMap
+            VendorType="hrDeviceType"
+            Descr="hrDeviceDescr"
+        />
+        <varReplace>
+            <var name="hrDeviceDescr" value="Guessing .+" process="pre">
+                <action op="delete" />
+            </var>
+            <!-- op="translate" doesn't seem to work for hrDeviceType values -->
+            <var name="hrDeviceType" value="1.3.6.1.2.1.25.3.1.1" process="pre">
+                <action op="replace" var="hrDeviceType" value="Other" />
+            </var>
+            <var name="hrDeviceType" value="1.3.6.1.2.1.25.3.1.2" process="pre">
+                <action op="replace" var="hrDeviceType" value="Unknown" />
+            </var>
+            <var name="hrDeviceType" value="1.3.6.1.2.1.25.3.1.3" process="pre">
+                <action op="replace" var="hrDeviceType" value="Processor" />
+            </var>
+            <var name="hrDeviceType" value="1.3.6.1.2.1.25.3.1.4" process="pre">
+                <action op="replace" var="hrDeviceType" value="Network" />
+            </var>
+            <var name="hrDeviceType" value="1.3.6.1.2.1.25.3.1.5" process="pre">
+                <action op="replace" var="hrDeviceType" value="Printer" />
+            </var>
+            <var name="hrDeviceType" value="1.3.6.1.2.1.25.3.1.6" process="pre">
+                <action op="replace" var="hrDeviceType" value="Disk Storage" />
+            </var>
+            <var name="hrDeviceType" value="1.3.6.1.2.1.25.3.1.10" process="pre">
+                <action op="replace" var="hrDeviceType" value="Video" />
+            </var>
+            <var name="hrDeviceType" value="1.3.6.1.2.1.25.3.1.11" process="pre">
+                <action op="replace" var="hrDeviceType" value="Audio" />
+            </var>
+            <var name="hrDeviceType" value="1.3.6.1.2.1.25.3.1.12" process="pre">
+                <action op="replace" var="hrDeviceType" value="Coprocessor" />
+            </var>
+            <var name="hrDeviceType" value="1.3.6.1.2.1.25.3.1.13" process="pre">
+                <action op="replace" var="hrDeviceType" value="Keyboard" />
+            </var>
+            <var name="hrDeviceType" value="1.3.6.1.2.1.25.3.1.14" process="pre">
+                <action op="replace" var="hrDeviceType" value="Modem" />
+            </var>
+            <var name="hrDeviceType" value="1.3.6.1.2.1.25.3.1.15" process="pre">
+                <action op="replace" var="hrDeviceType" value="Parallel Port" />
+            </var>
+            <var name="hrDeviceType" value="1.3.6.1.2.1.25.3.1.16" process="pre">
+                <action op="replace" var="hrDeviceType" value="Pointing" />
+            </var>
+            <var name="hrDeviceType" value="1.3.6.1.2.1.25.3.1.17" process="pre">
+                <action op="replace" var="hrDeviceType" value="Serial Port" />
+            </var>
+            <var name="hrDeviceType" value="1.3.6.1.2.1.25.3.1.18" process="pre">
+                <action op="replace" var="hrDeviceType" value="Tape" />
+            </var>
+            <var name="hrDeviceType" value="1.3.6.1.2.1.25.3.1.19" process="pre">
+                <action op="replace" var="hrDeviceType" value="Clock" />
+            </var>
+            <var name="hrDeviceType" value="1.3.6.1.2.1.25.3.1.20" process="pre">
+                <action op="replace" var="hrDeviceType" value="Volatile Memory" />
+            </var>
+            <var name="hrDeviceType" value="1.3.6.1.2.1.25.3.1.21" process="pre">
+                <action op="replace" var="hrDeviceType" value="Non-Volatile Memory" />
+            </var>
+        </varReplace>
+    </inventory>
+
+    <devicesupport vendor="Net-SNMP" dataset="System"    action="INCLUDE" />
+    <devicesupport vendor="Net-SNMP" dataset="ARP"       action="INCLUDE" />
+    <devicesupport vendor="Net-SNMP" dataset="CPU"       action="INCLUDE" />
+    <devicesupport vendor="Net-SNMP" dataset="Inventory" action="INCLUDE" />
+    <devicesupport vendor="Net-SNMP" dataset="Memory"    action="INCLUDE" />
+    <devicesupport vendor="Net-SNMP" dataset="Route"     action="INCLUDE" />
+
+    <unittests>
+        <test name="OPNsense 21.73">
+            <data variable="sysDescr"     index="0" value="FreeBSD OPNsense.network-guy.org 13.1-RELEASE-p7 FreeBSD 13.1-RELEASE-p7 stable/23.1-n250430-7eb6eb035df SMP amd64" />
+            <data variable="sysObjectID"  index="0" value="1.3.6.1.4.1.8072.3.2.8" />
+            <data variable="sysName"      index="0" value="OPNsense.network-guy.org" />
+            <data variable="sysServices"  index="0" value="76" />
+            <data variable="ipForwarding" index="0" value="forwarding" />
+            <data variable="1.3.6.1.4.1.8072.1.3.2.3.1.1.7.118.101.114.115.105.111.110" index="" value="OPNsense 23.1.7_3" />
+            <data variable="1.3.6.1.4.1.8072.1.3.2.3.1.2.7.118.101.114.115.105.111.110" index="" value="OPNsense 23.1.7_3" />
+            <!-- Example CPU & memory -->
+            <data variable="ssCpuIdle"    index="0" value="97" />
+            <data variable="memTotalReal" index="0" value="7244760" />
+            <data variable="memAvailReal" index="0" value="4499660" />
+            <!-- Example inventory -->
+            <data variable="hrDeviceType"  index="196608" value="1.3.6.1.2.1.25.3.1.3" />   
+            <data variable="hrDeviceType"  index="196609" value="1.3.6.1.2.1.25.3.1.3" />
+            <data variable="hrDeviceType"  index="262145" value="1.3.6.1.2.1.25.3.1.4" />   
+            <data variable="hrDeviceType"  index="262146" value="1.3.6.1.2.1.25.3.1.4" />
+            <data variable="hrDeviceDescr" index="196608" value="AMD RX-427BB with AMD Radeon(tm) R7 Graphics" />   
+            <data variable="hrDeviceDescr" index="196609" value="AMD RX-427BB with AMD Radeon(tm) R7 Graphics" />
+            <data variable="hrDeviceDescr" index="262145" value="network interface igb0" />   
+            <data variable="hrDeviceDescr" index="262146" value="network interface igb1" />
+            <data variable="hrDeviceID"    index="196608" value="0.0" />   
+            <data variable="hrDeviceID"    index="196609" value="0.0" />
+            <data variable="hrDeviceID"    index="262145" value="0.0" />   
+            <data variable="hrDeviceID"    index="262146" value="0.0" />
+            <!-- Expected results -->
+            <device name="OPNsense.network-guy.org"
+                vendor="Net-SNMP"
+                model="OPNsense"
+                version="23.1.7_3"
+                type="Firewall"
+            />
+            <cpu index="1" busy="3" />
+            <memory used="2745100" free="4499660" util="37" />
+            <inventory index="196608"
+                vendortype="Processor"
+                descr="AMD RX-427BB with AMD Radeon(tm) R7 Graphics"
+            />
+            <inventory index="196609"
+                vendortype="Processor"
+                descr="AMD RX-427BB with AMD Radeon(tm) R7 Graphics"
+            />
+            <inventory index="262145"
+                vendortype="Network" 
+                descr="network interface igb0"
+            />
+            <inventory index="262146"
+                vendortype="Network"
+                descr="network interface igb1"
+            />
+            <support system="OK" cpu="OK" memory="OK" inventory="OK" />
+        </test>
+    </unittests>
+</dsb>
