@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 
-<dsb name="OPNsense" version="202306010001" author="Wes Davis" netmri="7.*">
+<dsb name="OPNsense" version="202401180000" author="Wes Davis" netmri="7.*">
     <!-- https://www.iana.org/assignments/enterprise-numbers/?q=OPNsense -->
     <!-- <mibenterprise vendor="OPNsense" number="53869" /> -->
 
@@ -10,6 +10,10 @@
         identification="FreeBSD%"
         ipForwarding="forwarding"
         sysServices="76"
+    />
+    <devicemap
+        devicetype="Firewall"
+        identification="OPNsense%"
     />
 
     <!-- NET-SNMP-EXTEND-MIB::nsExtendOutput1Line."version" -->
@@ -24,6 +28,13 @@
         vendor="Net-SNMP"
         scalar="1.3.6.1.4.1.8072.1.3.2.3.1.2.7.118.101.114.115.105.111.110"
         property="sysModel"
+    />
+
+    <!-- NET-SNMP-EXTEND-MIB::nsExtendOutLine."version".1 -->
+    <vendorscalar
+        vendor="Net-SNMP"
+        scalar="1.3.6.1.4.1.8072.1.3.2.4.1.2.7.118.101.114.115.105.111.110.1"
+        property="sysDescr"
     />
 
     <versionmap
