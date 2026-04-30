@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 
-<dsb name="OPNsense" version="202401180000" author="Wes Davis" netmri="7.*">
+<dsb name="OPNsense" version="202604300000" author="Wes Davis" netmri="7.*" nios="9.0.8">
     <!-- https://www.iana.org/assignments/enterprise-numbers/?q=OPNsense -->
     <!-- <mibenterprise vendor="OPNsense" number="53869" /> -->
 
